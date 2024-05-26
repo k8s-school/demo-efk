@@ -39,7 +39,7 @@ helm install kibana --version "$VERSION" --namespace "$NS" elastic/kibana
 POD_NAME=$(kubectl get pods --namespace "$NS" -l "app=kibana,release=kibana" -o jsonpath="{.items[0].metadata.name}")
 
 # Wait for kibana to be in running state
-kubectl wait -n "$NS" --for=condition=Ready pods "$POD_NAME"
+kubectl wait -n "$NS" --for=condition=Ready pods "$POD_NAME" --timeout=300s
 
 kubectl port-forward -n "$NS" "$POD_NAME" 5601 &
 echo 'In Kibana, go to "Discover", add "filebeat-7.17.3*" index and "@timestamp" filter'
