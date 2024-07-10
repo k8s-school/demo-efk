@@ -15,10 +15,10 @@ kubectl label ns "$NS" name="logging"
 
 # Deploy ECK
 # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-eck.html
-kubectl create -f https://download.elastic.co/downloads/eck/2.13.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/operator.yaml
 
-kubectl -n elastic-system logs -f statefulset.apps/elastic-operator
+kubectl -n elastic-system logs statefulset.apps/elastic-operator
 
 # Work in logging namespace
 kubectl config set-context $(kubectl config current-context) --namespace="$NS"
@@ -110,7 +110,9 @@ kubectl get pods --selector='beat.k8s.elastic.co/name=quickstart-beat-filebeat'
 echo "Generate logs"
 $DIR/generate-log.sh > /dev/null &
 
-kubectl port-forward service/quickstart-kb-http 5601
-
+echo "Run port-forward to Kibana:"
+echo "kubectl port-forward service/quickstart-kb-http 5601"
+echo "Connect to Kibana on https://localhost:5601"
+echo "login: elastic, password: $PASSWORD"
 echo 'In Kibana, go to "Discover", add "filebeat-7.17.3*" index and "@timestamp" filter'
 echo 'then go to "Discover" and search on "Connecting"'
