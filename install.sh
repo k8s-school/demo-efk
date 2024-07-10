@@ -110,6 +110,7 @@ kubectl get pods --selector='beat.k8s.elastic.co/name=quickstart-beat-filebeat'
 echo "Generate logs"
 $DIR/generate-log.sh > /dev/null &
 
+set +x
 echo "Run port-forward to Kibana:"
 echo "kubectl port-forward service/quickstart-kb-http 5601"
 echo "Connect to Kibana on https://localhost:5601"
