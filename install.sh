@@ -19,8 +19,7 @@ kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/operator.yaml
 
 # Wait for pod labelled with control-plane=elastic-operator
-
-kubectl wait --for=condition=available --timeout=300s statefulset.apps/elastic-operator -n elastic-system
+kubectl wait --for=condition=ready --timeout=300s pod -l control-plane=elastic-operator -n elastic-system
 kubectl -n elastic-system logs statefulset.apps/elastic-operator
 
 # Work in logging namespace
