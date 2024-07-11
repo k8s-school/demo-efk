@@ -13,6 +13,9 @@ kubectl delete ns -l name="logging"
 kubectl create namespace "$NS"
 kubectl label ns "$NS" name="logging"
 
+kubectl create ns logging
+kubectl label ns "logging" name="logging"
+
 # Deploy ECK
 # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-eck.html
 kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/crds.yaml
@@ -117,5 +120,5 @@ echo "Run port-forward to Kibana:"
 echo "kubectl port-forward service/quickstart-kb-http 5601"
 echo "Connect to Kibana on https://localhost:5601"
 echo "login: elastic, password: $PASSWORD"
-echo 'In Kibana, go to "Discover", add "filebeat-7.17.3*" index and "@timestamp" filter'
+echo 'In Kibana, go to "Discover", add "filebeat-8.14.2*" index and "@timestamp" filter'
 echo 'then go to "Discover" and search on "Connecting"'
