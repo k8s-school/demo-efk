@@ -7,7 +7,7 @@ set -euxo pipefail
 
 DIR=$(cd "$(dirname "$0")"; pwd -P)
 
-NS="logging"
+NS="elastic-demo"
 
 kubectl delete ns -l name="logging"
 kubectl create namespace "$NS"
@@ -18,6 +18,9 @@ kubectl label ns "$NS" name="logging"
 kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/crds.yaml
 kubectl apply -f https://download.elastic.co/downloads/eck/2.13.0/operator.yaml
 
+# Wait for pod labelled with control-plane=elastic-operator
+
+kubectl wait --for=condition=available --timeout=300s statefulset.apps/elastic-operator -n elastic-system
 kubectl -n elastic-system logs statefulset.apps/elastic-operator
 
 # Work in logging namespace
